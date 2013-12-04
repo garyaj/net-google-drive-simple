@@ -152,7 +152,7 @@ sub file_url {
 
     my $url = URI->new( $self->{ api_file_url } );
     $url->query_form( $opts );
-    
+
     return $url;
 }
 
@@ -176,25 +176,25 @@ sub files {
     $self->init();
 
     my @docs = ();
-        
+
     while( 1 ) {
         my $url = $self->file_url( $opts );
         my $data = $self->http_json( $url );
-    
+
         for my $item ( @{ $data->{ items } } ) {
-        
+
             # ignore trash
           if( $item->{ labels }->{ trashed } ) {
               DEBUG "Skipping $item->{ title } (trashed)";
           }
-        
+
           if( $item->{ kind } eq "drive#file" ) {
             my $file = $item->{ originalFilename };
             if( !defined $file ) {
                 DEBUG "Skipping $item->{ title } (no originalFilename)";
                 next;
             }
-        
+
             push @docs, $self->data_factory( $item );
           } else {
             DEBUG "Skipping $item->{ title } ($item->{ kind })";
@@ -222,7 +222,6 @@ sub folder_create {
         title    => $title,
         parents  => [ { id => $parent } ],
         mimeType => "application/vnd.google-apps.folder",
-        shared => \1,
     } );
 
     return $data->{ id };
@@ -307,7 +306,7 @@ sub children_by_folder_id {
     }
 
     my @children = ();
-    
+
     while( 1 ) {
         $url->query_form( $opts );
 
@@ -323,7 +322,7 @@ sub children_by_folder_id {
             last;
         }
     }
-    
+
     return \@children;
 }
 
@@ -547,7 +546,7 @@ sub file_mime_type {
 
     return $self->{ magic }->checktype_filename( $file );
 }
-    
+
 1;
 
 __END__
