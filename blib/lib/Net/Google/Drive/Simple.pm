@@ -222,7 +222,7 @@ sub folder_create {
         title    => $title,
         parents  => [ { id => $parent } ],
         mimeType => "application/vnd.google-apps.folder",
-        shared => 1,
+        shared => \1,
     } );
 
     return $data->{ id };
